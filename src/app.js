@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 
+import './style.scss'
 
 
 import Index from './components/Index'
 
 import Search from './components/Search'
+import FiveDays from './components/FiveDays'
 
 
 
@@ -26,6 +28,7 @@ class App extends React.Component {
 
       <HashRouter>
         <Switch>
+          <Route exact path="/matched" component={FiveDays} />
           <Route exact path="/search/:city" component={Search} />
           <Route exact path="/" component={Index} />
 

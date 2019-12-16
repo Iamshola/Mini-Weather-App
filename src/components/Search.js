@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Card from './Card'
 
 class Search extends React.Component {
   constructor() {
@@ -22,6 +23,7 @@ class Search extends React.Component {
       .then(res => {
         this.setState({ searchedCountry: res.data })
       })
+      .catch(err => this.setState({ err })) 
   }
 
 
@@ -31,8 +33,14 @@ class Search extends React.Component {
     })
   }
 
+
   render() {
     console.log(this.state.searchedCountry)
+
+
+    if (this.state.searchedCountry.weather.length === 0 ) {
+      return <Link to="/"> Back Home</Link>
+    }
    
     return (
       <section className="hero is-primary is-medium">
@@ -41,15 +49,16 @@ class Search extends React.Component {
 
             <h1 className="title">{this.state.searchedCountry.name}, {this.state.searchedCountry.sys.country}  </h1>
 
-            <p>Maximum temp : {this.state.searchedCountry.main.temp_max}</p>
-            <p>Minimum temp : {this.state.searchedCountry.main.temp_min}</p>
-
-            <p>Feels Like: {this.state.searchedCountry.main.temp_min}</p>
-
-            <p>Humidity: {this.state.searchedCountry.main.humidity}</p>
-            <p>Description: {this.state.searchedCountry.weather.map(des => des.description)}</p>
-
-
+            <Card
+              image={`http://openweathermap.org/img/wn/${this.state.searchedCountry.weather[0].icon}@2x.png`}
+              tempMax={this.state.searchedCountry.main.temp_max}
+              tempMin={this.state.searchedCountry.main.temp_min}
+              feelsLike={this.state.searchedCountry.main.feels_like}
+              humidity={this.state.searchedCountry.main.humidity}
+              timezone={this.state.searchedCountry.timezone}
+              description={this.state.searchedCountry.weather.map(des => des.description)}
+            />
+    
           </div>
         </div>
 
@@ -60,6 +69,8 @@ class Search extends React.Component {
 
 
     )
+
+    
   }
 
 }

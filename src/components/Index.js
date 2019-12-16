@@ -1,33 +1,38 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
+import Card from './Card'
+import moment from 'moment'
 
-
-
+const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona']
 
 class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      weather: {
-        main: {},
-        sys: {},
-        weather: []
-      }, 
+      weather: [],      
       searchTerm: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.getData = this.getData.bind(this)
   }
 
   componentDidMount() {
-    axios.get('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=362ab4995b2bd8af16368699f72a0b13')
-      .then(res => {
-        this.setState({ weather: res.data })
-      })
+    this.getData()
   }
+ 
+  getData(){
+    this.setState({ weather: [] })
+    
+    initalCountry.map(x =>
+      axios.get('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=' + x + '&APPID=362ab4995b2bd8af16368699f72a0b13')
+        .then(res => {
+          this.setState({ weather: [res.data].concat(this.state.weather), currentTime: moment().format('MMMM Do YYYY, h:mm:ss a') })
+        })
+    )
 
-
+  }
 
   handleChange(e) {
     this.setState({ searchTerm: e.target.value })
@@ -38,33 +43,48 @@ class Index extends React.Component {
 
   }
 
-
   render() {
     console.log(this.state.weather)
     console.log(this.state.searchTerm)
-    return (
+
+    if (this.state.weather === 0) {
+      return null
+    }
+
+    return ( 
       <section className="hero is-primary is-medium">
         <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
-              {this.state.weather.name}, {this.state.weather.sys.country}
-            </h1>
+          <div className="home-container">
 
-            <p>Maximum temp : {this.state.weather.main.temp_max}</p>
-            <p>Minimum temp : {this.state.weather.main.temp_min}</p>
+            {this.state.weather.map(x =>
+              <div key={x.id}>
+                <h1 className="title">
+                  {x.name}, {x.sys.country}
+                </h1>
 
-            <p>Feels Like: {this.state.weather.main.temp_min}</p>
+                <Card 
+                  image={`http://openweathermap.org/img/wn/${x.weather[0].icon}@2x.png`}
+                  tempMax={x.main.temp_max}
+                  tempMin={x.main.temp_min}
+                  feelsLike={x.main.feels_like}
+                  humidity={x.main.humidity}
+                  timezone={x.timezone}
+                  description={x.weather.map(des => des.description)}
+                />
 
-            <p>Humidity: {this.state.weather.main.humidity}</p>
-            <p>Description: {this.state.weather.weather.map(des => des.description)}</p>
-
-            <form onSubmit={this.handleSubmit}>
-              <input type="text" placeholder="Search your favourite ingredient" className="input" onChange={this.handleChange} />
-            </form>
-
+    
+              </div> 
+            )}
+         
 
           </div>
+          <h1>OR</h1>
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" placeholder="Search your favourite ingredient" className="input" onChange={this.handleChange} />
+          </form>
+          <small>Last Updated: {this.state.currentTime} <button onClick={this.getData}>Get Updates here</button></small>
         </div>
+
       </section>
 
 
