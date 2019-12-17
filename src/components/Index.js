@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Card from './Card'
 import moment from 'moment'
+import _ from 'lodash'
 
-const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona']
+const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona', 'Tallinn']
 
 class Index extends React.Component {
   constructor(props) {
@@ -53,33 +54,62 @@ class Index extends React.Component {
     }
 
     return ( 
-      <section className="hero is-primary is-medium">
+      <section className="hero is-warning is-medium">
         <div className="hero-body">
-          <div className="home-container">
-
-            {this.state.weather.map(x =>
-              <div key={x.id}>
-                <h1 className="title">
-                  <Link to={`/matched/${x.name}`}> {x.name}, {x.sys.country} </Link>
-                </h1>
-
-                <Card 
-                  image={`http://openweathermap.org/img/wn/${x.weather[0].icon}@2x.png`}
-                  tempMax={x.main.temp_max}
-                  tempMin={x.main.temp_min}
-                  feelsLike={x.main.feels_like}
-                  humidity={x.main.humidity}
-                  timezone={x.timezone}
-                  description={x.weather.map(des => des.description)}
-                />    
-              </div> 
-            )}
+          <div className="container">
+            <h2 className="has-text-centered title is-1 heading">Weather App</h2>
+            <hr />
+            <h2 className="has-text-centered title is-2 heading">Our Favourite Five</h2>
+            <hr />
+            <div className="columns">
+              {this.state.weather.map(x =>
+                <div 
+                  className="column" 
+                  key={x.id}
+                >
+                
+                  <Link to={`/matched/${x.name}`}> 
+                    <h1 className="title">  {x.name}, {x.sys.country}</h1>
+                 
+                    <Card 
+                      image={`http://openweathermap.org/img/wn/${x.weather[0].icon}@2x.png`}
+                      tempMax={x.main.temp_max}
+                      tempMin={x.main.temp_min}
+                      feelsLike={x.main.feels_like}
+                      humidity={x.main.humidity}
+                      description={_.startCase(x.weather.map(des => des.description))}
+                    /> 
+                   
+                  </Link>
+                </div> 
+              )}
+            </div>
           </div>  
-          <h1>OR</h1>
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" placeholder="Search your favourite ingredient" className="input" onChange={this.handleChange} />
-          </form>
-          <small>Last Updated: {this.state.currentTime} <button onClick={this.getData}>Get Updates here</button></small>
+          <div>
+            <br />
+            <br />
+            <h1 className="has-text-centered title">OR</h1>
+     
+          </div>
+          
+          <div className="column is-6 is-offset-3">
+            <div className="field">
+              <div className="control">
+                <form onSubmit={this.handleSubmit}>
+                  <input type="text" placeholder="Search your favourite city" className="input is-danger is-rounded" onChange={this.handleChange} />
+                </form>
+              </div>
+            </div>
+
+            <p className="has-text-centered">Last Updated: {this.state.currentTime} </p>
+            <div className="buttons has-addons is-centered">
+              <button className=" button has-text-centered is-small is-danger" onClick={this.getData}>Get Updates here</button>
+            </div>
+
+
+          </div>
+
+
         </div>
 
       </section>

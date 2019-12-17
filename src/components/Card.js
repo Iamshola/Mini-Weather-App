@@ -1,24 +1,20 @@
 import React from 'react'
 
-const Card = ({ tempMax, tempMin, feelsLike, humidity, timezone, description, image }) => {
+const Card = ({ tempMax, tempMin, feelsLike, humidity, description, image }) => {
   return (
 
     <div className="card">
       <div className="card-image">
-        <figure className="image is-4by3">
+        <figure className="image">
           <img src={image} /> 
         </figure>
+        <hr />
       </div>
       <div className="card-content">
-
-        <p>{Math.round(tempMax - 273.15)} °C / {Math.round(tempMin - 273.15)} °C </p>
-        <p>Feels Like: {Math.round(feelsLike - 273.15)} °C</p>
-
-        <p>Humidity: {humidity} %</p>
-        <p>Description: {description}</p>
-
-
-        <p>Timezone: {Math.round(timezone) / 3600} GMT  </p>
+        <p className="has-text-centered">{Math.round(tempMax - 273.15)}°C / {Math.round(tempMin - 273.15)}°C </p>
+        <p className="has-text-centered">Feels Like: {Math.round(feelsLike - 273.15)}°C</p>
+        <p className="has-text-centered"> Humidity: {humidity} %</p>
+        <p className="has-text-centered">Description: {description}</p>
       </div>
     </div>
 
