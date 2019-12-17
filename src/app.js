@@ -7,8 +7,6 @@ import './style.scss'
 
 
 import Index from './components/Index'
-
-import Search from './components/Search'
 import FiveDays from './components/FiveDays'
 
 
@@ -28,10 +26,8 @@ class App extends React.Component {
 
       <HashRouter>
         <Switch>
-          <Route exact path="/matched" component={FiveDays} />
-          <Route exact path="/search/:city" component={Search} />
+          <Route exact path="/matched/:days" component={FiveDays} />
           <Route exact path="/" component={Index} />
-
         </Switch>
       </HashRouter>
       

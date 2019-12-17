@@ -11,19 +11,24 @@ class FiveDays extends React.Component {
       searchedCountry: {
         main: {},
         sys: {},
-        weather: []
+        list: [],
+        city: {}
       },
-      searchTerm: ''
+      searchTerm: '', 
+      country: [], 
+      main: {}
     }
 
   }
 
   componentDidMount() {
-    axios.get('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?q=' + 'london' + '&APPID=362ab4995b2bd8af16368699f72a0b13')
+    axios.get('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?q=' + this.props.match.params.days + '&APPID=362ab4995b2bd8af16368699f72a0b13')
       .then(res => {
-        this.setState({ searchedCountry: res.data })
-      })
+        this.setState({ searchedCountry: res.data }, () => {
+          this.handleFilter()
+        })
   
+      })
   }
 
 
@@ -33,39 +38,56 @@ class FiveDays extends React.Component {
     })
   }
 
+  handleFilter(){
+    const country = this.state.searchedCountry.list.filter(
+      (weather) =>
+        weather.dt === this.state.searchedCountry.list[0].dt ||
+        weather.dt === this.state.searchedCountry.list[0].dt + 86400 ||
+        weather.dt === this.state.searchedCountry.list[0].dt + 86400 * 2 ||
+        weather.dt === this.state.searchedCountry.list[0].dt + 86400 * 3 ||
+        weather.dt === this.state.searchedCountry.list[0].dt + 86400 * 4
+    ).map(weather => weather)
+
+    this.setState({ country })
+  }
+
 
   render() {
     console.log(this.state.searchedCountry)
-
-
-    // if (this.state.searchedCountry.weather.length === 0) {
-    //   return <Link to="/"> Back Home</Link>
-    // }
+    // console.log(this.state.country.weather)
 
     return (
-      <h2>hey</h2>
-      // <section className="hero is-primary is-medium">
-      //   <div className="hero-body">
-      //     <div className="container">
+   
+      <section className="hero is-primary is-medium">
+        <div className="hero-body">
+          <h2> {this.state.searchedCountry.city.name},  {this.state.searchedCountry.city.country}</h2>
+          <div className="home-container">
+          
+            
+            {this.state.country.map(weather => 
+              <div key={weather.id} >
+                <h1>{weather.weather.map(item => item.main)}</h1>
+                <Card
+                  image={`http://openweathermap.org/img/wn/${weather.weather.map(item => item.icon)}@2x.png`}
+                  tempMax={weather.main.temp_max}
+                  tempMin={weather.main.temp_min}
+                  feelsLike={weather.main.feels_like}
+                  humidity={weather.main.humidity}
+                  timezone={0}
+                  description={weather.weather.map(item => item.description)}
+                />
+              </div>
+                
+            )}
+      
+      
+      
+          </div>
+        </div>
 
-    //       <h1 className="title">{this.state.searchedCountry.name}, {this.state.searchedCountry.sys.country}  </h1>
-    //       <h3>heyy</h3>
-    //       <Card
-    //         image={`http://openweathermap.org/img/wn/${this.state.searchedCountry.weather[0].icon}@2x.png`}
-    //         tempMax={this.state.searchedCountry.main.temp_max}
-    //         tempMin={this.state.searchedCountry.main.temp_min}
-    //         feelsLike={this.state.searchedCountry.main.feels_like}
-    //         humidity={this.state.searchedCountry.main.humidity}
-    //         timezone={this.state.searchedCountry.timezone}
-    //         description={this.state.searchedCountry.weather.map(des => des.description)}
-    //       />
+        <Link to="/"> Back Home</Link>
 
-    //     </div>
-    //   </div>
-
-    //   <Link to="/"> Back Home</Link>
-
-    // </section>
+      </section>
 
 
 

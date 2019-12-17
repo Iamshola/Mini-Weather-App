@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Card from './Card'
 import moment from 'moment'
@@ -39,7 +40,7 @@ class Index extends React.Component {
   }
 
   handleSubmit() {
-    this.props.history.push('/search/' + this.state.searchTerm)
+    this.props.history.push('/matched/' + this.state.searchTerm)
 
   }
 
@@ -59,7 +60,7 @@ class Index extends React.Component {
             {this.state.weather.map(x =>
               <div key={x.id}>
                 <h1 className="title">
-                  {x.name}, {x.sys.country}
+                  <Link to={`/matched/${x.name}`}> {x.name}, {x.sys.country} </Link>
                 </h1>
 
                 <Card 
@@ -70,14 +71,10 @@ class Index extends React.Component {
                   humidity={x.main.humidity}
                   timezone={x.timezone}
                   description={x.weather.map(des => des.description)}
-                />
-
-    
+                />    
               </div> 
             )}
-         
-
-          </div>
+          </div>  
           <h1>OR</h1>
           <form onSubmit={this.handleSubmit}>
             <input type="text" placeholder="Search your favourite ingredient" className="input" onChange={this.handleChange} />

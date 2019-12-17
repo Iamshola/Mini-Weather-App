@@ -11,9 +11,7 @@ const Card = ({ tempMax, tempMin, feelsLike, humidity, timezone, description, im
       </div>
       <div className="card-content">
 
-        <p>Maximum temp : {Math.round(tempMax - 273.15)} °C </p>
-        <p>Minimum temp : {Math.round(tempMin - 273.15)} °C</p>
-
+        <p>{Math.round(tempMax - 273.15)} °C / {Math.round(tempMin - 273.15)} °C </p>
         <p>Feels Like: {Math.round(feelsLike - 273.15)} °C</p>
 
         <p>Humidity: {humidity} %</p>
