@@ -57,9 +57,9 @@ class Index extends React.Component {
       <section className="hero is-warning is-medium">
         <div className="hero-body">
           <div className="container">
-            <h2 className="has-text-centered title is-1 heading">Weather App</h2>
+            <h2 className="has-text-centered title is-2 heading">Whats your weather?</h2>
             <hr />
-            <h2 className="has-text-centered title is-2 heading">Our Favourite Five</h2>
+            <h2 className="has-text-centered title is-3 heading">Our Favourite five</h2>
             <hr />
             <div className="columns">
               {this.state.weather.map(x =>

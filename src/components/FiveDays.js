@@ -5,6 +5,16 @@ import { Link } from 'react-router-dom'
 import Card from './Card'
 import _ from 'lodash'
 
+const days = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+]
+
 class FiveDays extends React.Component {
   constructor() {
     super()
@@ -55,30 +65,39 @@ class FiveDays extends React.Component {
 
   render() {
     console.log(this.state.searchedCountry)
-    // console.log(this.state.country.weather)
+    
+
     if (this.state.searchedCountry.list.length === 0) {
       return (
-        <div id="notfound">
-          <div className="notfound">
-            <div className="notfound-404">
-              <img className="spinner" src="https://offerscouponsdeals.in/public/ocd_images/overlay-loader.gif" alt="Loading" />
-              <h2 className="title is-3 has-text-centered">No Results Found</h2>
-              <div className="title is-6 has-text-centered"><Link to="/"> Let's go back home! </Link></div> 
+        <section className="hero is-warning is-fullheight">
+          <div className="hero-body">
+            <div className="container">
+              <div id="notfound">
+                <div className="notfound">
+                  <div className="notfound-404">
+                    <img className="spinner" src="https://offerscouponsdeals.in/public/ocd_images/overlay-loader.gif" alt="Loading" />
+                    <h2 className="title is-3 has-text-centered">No Results Found</h2>
+                    <div className="title is-6 has-text-centered"><Link to="/"> Let's go back home! </Link></div> 
 
+                  </div>
+
+                </div>
+              </div>
             </div>
 
+         
           </div>
-        </div>
+        </section>
       )
     }
     
     return (
-      <section className="hero is-warning is-medium">
+      <section className="hero is-warning is-fullheight">
         <div className="hero-body">
           <div className="container">
             <h2 className="has-text-centered title is-1 heading">Weather App</h2>
             <hr />
-            <h2 className="has-text-centered title is-2 heading"> {this.state.searchedCountry.city.name},  {this.state.searchedCountry.city.country}</h2>
+            <h2 className="has-text-centered title is-3 heading"> {this.state.searchedCountry.city.name},  {this.state.searchedCountry.city.country}</h2>
             <hr />
           
             <div className="columns">
@@ -86,8 +105,7 @@ class FiveDays extends React.Component {
                 <div 
                   className="column" 
                   key={weather.id} >
-
-                  <h1 className="has-text-centered subtitle">{weather.weather.map(item => item.main)}</h1>
+                  <p className="has-text-centered subtitle is-5 heading">{days[new Date(weather.dt * 1000).getDay()]}</p>
                   <Card
                     image={`http://openweathermap.org/img/wn/${weather.weather.map(item => item.icon)}@2x.png`}
                     tempMax={weather.main.temp_max}
@@ -100,14 +118,16 @@ class FiveDays extends React.Component {
                 
               )}
             </div>
-          </div>
-          <br/>
-
-          <div className="column is-6 is-offset-3">
+            <br />
+            <br />
             <div className="buttons has-addons is-centered">
               <div className="has-text-centered button"> <Link to="/"> Back Home</Link> </div>
             </div>
           </div>
+       
+
+         
+    
 
 
 
