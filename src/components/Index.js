@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Card from './Card'
 import moment from 'moment'
+import TextField from '@material-ui/core/TextField'
 import _ from 'lodash'
 
-const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona', 'Tallinn']
+const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona', 'Tallinn', 'Tema']
 
 class Index extends React.Component {
   constructor(props) {
@@ -25,10 +26,11 @@ class Index extends React.Component {
   }
  
   getData(){
+    const token = process.env.WEATHER_KEY
     this.setState({ weather: [] })
     
     initalCountry.map(x =>
-      axios.get('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=' + x + '&APPID=362ab4995b2bd8af16368699f72a0b13')
+      axios.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=${x}&APPID=${token}`)
         .then(res => {
           this.setState({ weather: [res.data].concat(this.state.weather), currentTime: moment().format('MMMM Do YYYY, h:mm:ss a') })
         })
@@ -48,6 +50,7 @@ class Index extends React.Component {
   render() {
     console.log(this.state.weather)
     console.log(this.state.searchTerm)
+    console.log(process.env.WEATHER_KEY)
 
     if (this.state.weather === 0) {
       return null
@@ -97,6 +100,8 @@ class Index extends React.Component {
               <div className="control">
                 <form onSubmit={this.handleSubmit}>
                   <input type="text" placeholder="Search your favourite city" className="input is-danger is-rounded" onChange={this.handleChange} />
+                  {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={this.handleChange}/>
+                   */}
                 </form>
               </div>
             </div>

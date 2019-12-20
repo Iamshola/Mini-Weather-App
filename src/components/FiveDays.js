@@ -33,7 +33,8 @@ class FiveDays extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?q=' + this.props.match.params.days + '&APPID=362ab4995b2bd8af16368699f72a0b13')
+    const token = process.env.WEATHER_KEY
+    axios.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?q=${this.props.match.params.days}&APPID=${token}`)
       .then(res => {
         this.setState({ searchedCountry: res.data }, () => {
           this.handleFilter()
