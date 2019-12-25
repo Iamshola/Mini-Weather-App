@@ -46,10 +46,7 @@ class Index extends React.Component {
   }
 
   render() {
-    console.log(this.state.weather)
-    console.log(this.state.searchTerm)
-    console.log(process.env.WEATHER_KEY)
-
+  
     if (this.state.weather === 0) {
       return null
     }
