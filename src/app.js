@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import './style.scss'
@@ -22,17 +21,12 @@ class App extends React.Component {
   render() {
   
     return (
-     
-
       <HashRouter>
         <Switch>
           <Route exact path="/matched/:days" component={FiveDays} />
           <Route exact path="/" component={Index} />
         </Switch>
       </HashRouter>
-      
-
-
     )
   }
 

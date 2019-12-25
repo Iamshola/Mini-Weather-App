@@ -1,10 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Card from './Card'
 import moment from 'moment'
-import TextField from '@material-ui/core/TextField'
 import _ from 'lodash'
 
 const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona', 'Tallinn', 'Tema']

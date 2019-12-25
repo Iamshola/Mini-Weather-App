@@ -1,4 +1,5 @@
 # Mini-Weather-App
 
 
-Initial Commit 
+### Site can be accessed here: https://iamshola.github.io/Mini-Weather-App/
+
