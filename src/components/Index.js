@@ -5,7 +5,7 @@ import Card from './Card'
 import moment from 'moment'
 import _ from 'lodash'
 
-const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona', 'Tallinn', 'Tema']
+const initalCountry = ['London', 'Lagos', 'New York', 'Barcelona', 'Tema']
 
 class Index extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class Index extends React.Component {
     initalCountry.map(x =>
       axios.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=${x}&APPID=${token}`)
         .then(res => {
-          this.setState({ weather: [res.data].concat(this.state.weather), currentTime: moment().format('MMMM Do YYYY, h:mm:ss a') })
+          this.setState({ weather: [res.data].concat(this.state.weather), currentTime: moment().format('MMMM Do YYYY, h:mm a') })
         })
     )
 
@@ -59,6 +59,7 @@ class Index extends React.Component {
             <hr />
             <h2 className="has-text-centered title is-3 heading">Our Favourite five</h2>
             <hr />
+
             <div className="columns">
               {this.state.weather.map(x =>
                 <div 

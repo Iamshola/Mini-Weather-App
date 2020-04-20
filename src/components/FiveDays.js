@@ -77,16 +77,7 @@ class FiveDays extends React.Component {
   }
 
   handleGraph(){
-    const graphData = this.state.searchedCountry.list.filter(
-      (weather) =>
-        weather.dt === this.state.searchedCountry.list[0].dt ||
-        weather.dt === this.state.searchedCountry.list[0].dt + 86400 ||
-        weather.dt === this.state.searchedCountry.list[0].dt + 86400 * 2 ||
-        weather.dt === this.state.searchedCountry.list[0].dt + 86400 * 3 ||
-        weather.dt === this.state.searchedCountry.list[0].dt + 86400 * 4
-    ).map(weather => weather)
-    
-
+    const graphData = this.state.searchedCountry.list.map(weather => weather).slice(0, 8)
 
     this.setState({ graphData })
 
@@ -97,13 +88,18 @@ class FiveDays extends React.Component {
   render() {
     console.log(this.state.searchedCountry)
     console.log(this.state.graphData)
+
     const data = this.state.graphData.map(weather => {
-      return ({ name: days[new Date(weather.dt * 1000).getDay()], max: Math.round(weather.main.temp_max - 273.15), min: Math.round(weather.main.temp_min - 273.15), feelsLike: Math.round(weather.main.feels_like- 273.15) }) 
+      return ({ 
+        name: days[new Date(weather.dt * 1000).getDay()]+ ', ' + weather.dt_txt.slice(12, 20), 
+        max: Math.round(weather.main.temp_max - 273.15), 
+        min: Math.round(weather.main.temp_min - 273.15), 
+        feelsLike: Math.round(weather.main.feels_like - 273.15) 
+      }) 
     })
    
     console.log(data)
     
-  
 
     if (this.state.searchedCountry.list.length === 0)  {
       return (
@@ -115,7 +111,7 @@ class FiveDays extends React.Component {
                   <div className="notfound-404">
                     <img className="spinner" src="https://offerscouponsdeals.in/public/ocd_images/overlay-loader.gif" alt="Loading" />
                     <h2 className="title is-3 has-text-centered">No Results Found</h2>
-                    <div className="title is-6 has-text-centered"><Link to="/"> Let/'s go back home! </Link></div> 
+                    <div className="title is-6 has-text-centered"><Link to="/"> Let's go back home! </Link></div> 
 
                   </div>
 
@@ -156,16 +152,20 @@ class FiveDays extends React.Component {
                 
               )}
             </div>
+            
+            <hr />
 
-
-            <LineChart width={600} height={400} data={data} margin-left={300}
-              margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
-              <XAxis dataKey="name" />
-              <YAxis  />
+            <h3 className="has-text-centered title is-3 heading"> Further details....</h3>
+            <LineChart width={1300} height={400} data={data}
+              margin={{ top: 5, right: 5, left: 20, bottom: 5 }}>
+              <XAxis dataKey="name"
+                label={{ value: 'random text', position: 'insideBottomRight', offset: -20 }}
+              />
+              <YAxis />
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="min" stroke="#8884d8" activeDot={{ r: 7}} />
+              {/* <Legend /> */}
+              <Line type="monotone" dataKey="min" stroke="#8884d8" activeDot={{ r: 8 }} />
               <Line type="monotone" dataKey="feelsLike" stroke="#82ca9d" strokeDasharray="3 2" />
               <Line type="monotone" dataKey="max" stroke="#82ca9d" strokeDasharray="3 4 5 2" />
             </LineChart>
@@ -176,17 +176,7 @@ class FiveDays extends React.Component {
               <div className="has-text-centered button"> <Link to="/"> Back Home</Link> </div>
             </div>
           </div>
-       
-
-         
-    
-
-
-
-
         </div>
-
-
       </section>
 
 
